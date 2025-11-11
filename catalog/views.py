@@ -15,6 +15,10 @@ def home(request):
     return render(request, 'catalog/home.html')
 
 
+def catalogs(request):
+    return render(request, 'catalog/catalogs.html')
+
+
 def contacts(request):
     """Обработка POST-запрса"""
     if request.method == 'POST':

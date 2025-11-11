@@ -8,5 +8,6 @@ app_name = 'catalog'
 #Path это специальная функция которая позволяет регестрировать наш маршрут
 urlpatterns = [
     path('home/', views.home, name='home'),
-    path('contacts/', views.contacts, name='contacts')
+    path('contacts/', views.contacts, name='contacts'),
+    path('catalogs/', views.catalogs, name='catalog')
     ]
