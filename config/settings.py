@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     "students",
+    "catalog"
 ]
+
 #Список приложений предосталяемых промежуточное ПО,которое обрабатывает входящие запрсы и исходящие ответы
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
