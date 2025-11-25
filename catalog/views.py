@@ -13,6 +13,7 @@ def show_data(request):
     if request.method == "GET":
         return render(request, 'app/show_data.html')
 
+
 def contacts(request):
     """Обработка POST-запрса"""
     if request.method == 'POST':
