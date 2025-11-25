@@ -3,14 +3,16 @@
 {% block title%}Каталог{% endblock %}
 
 {% block content %}
+{% include 'catalog/header.html' %}
    {% if categories %}
-        <ul class="list-group">
+        <div class="row text-center">
             {% for category in categories %}
-                <li class="list-group-item">
-                    {{ category.name }} {{ category.description|truncatechars:100 }}
-                </li>
+                <div class="col-6 mt-3 text-center">
+                    <button class="rounded text-center w-100 btn btn btn-outline-info border border-secondary-subtle btn-lg"><a  class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" href="#"><h4 class="mt-2">{{ category.name }}</h4></a></button>
+                    <p class="lead">{{ category.description|truncatechars:100 }}</p>
+                </div>
             {% endfor %}
-        </ul>
+        </div>
     {% else %}
         <p>Нет доступных категорий.</p>
     {% endif %}

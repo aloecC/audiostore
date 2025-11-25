@@ -3,11 +3,17 @@
 {% block title%}Информация о продукте{% endblock %}
 
 {% block content %}
-<div class="container rounded mt-3 text-bg-dark p-3">
+<div class="row rounded mt-3">
     <h4>{{ product.name }}</h4>
-    <p>{{ product.image }}</p>
-    <p class="text-start">{{ product.description }}</p>
-    <h6>Категория: {{ product.category }}</h6>
-    <h6>Цена: {{ product.purchase_price }} рублей</h6>
+    <div class="col-6">
+        <p><img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid img-thumbnail"></p>
+    </div>
+    <div class="col-6 text-end">
+        <p class="lead text-start">Категория: {{ product.category }}</p>
+        <p class="text-start lead">{{ product.description }}</p>
+        <p class="fs-1 mt-4 text-end">Цена: {{ product.purchase_price }} рублей</p>
+            <button type="button" class="text-start btn btn-info btn-lg">Оформить заказ</button> <button type="button" class="text-start btn btn-outline-info btn-lg">Добавить в корзину</button>
+    </div>
+
 </div>
 {% endblock %}

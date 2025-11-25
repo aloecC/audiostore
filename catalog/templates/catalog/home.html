@@ -56,17 +56,18 @@
         </div>
     </div>
     {% if products %}
-        <ul class="list-group">
-            {% for prodct in products %}
-                <li class="list-group-item">
-                    {{ product.name }}
-                    {{ product.image }}
-                     class="text-start"{{ product.description|truncatechars:100 }}
-                    Категория: {{ product.category }}
-                    Цена: {{ product.purchase_price }} рублей
-                </li>
+        <div class="row mt-5">
+            {% for product in products %}
+                <div class="col-3 mt-3">
+                    <h4 class="mt-4">{{ product.name }}</h4>
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid img-thumbnail">
+                    {{ product.description|truncatechars:100 }}
+                    <h6>Категория: {{ product.category }}</h6>
+                    <h6>Цена: {{ product.purchase_price }} рублей</h6>
+                    <button class="rounded text-center w-100 btn btn btn-outline-info border border-secondary-subtle"><a  class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" href="#">Перейти</a></button>
+                </div>
             {% endfor %}
-        </ul>
+        </div>
     {% else %}
         <p>Нет доступных продуктов.</p>
     {% endif %}
