@@ -8,7 +8,7 @@
         <div class="row text-center">
             {% for category in categories %}
                 <div class="col-6 mt-3 text-center">
-                    <button class="rounded text-center w-100 btn btn btn-outline-info border border-secondary-subtle btn-lg"><a  class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" href="#"><h4 class="mt-2">{{ category.name }}</h4></a></button>
+                    <button class="rounded text-center w-100 btn btn btn-outline-info border border-secondary-subtle btn-lg"><a  class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" href="{% url 'catalog:category_detail' category.id %}"><h4 class="mt-2">{{ category.name }}</h4></a></button>
                     <p class="lead">{{ category.description|truncatechars:100 }}</p>
                 </div>
             {% endfor %}
