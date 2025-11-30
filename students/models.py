@@ -44,6 +44,14 @@ from django.db import models
 #        verbose_name_plural = 'студенты'
 #        ordering = ['last_name'] #Порядок сортировки
 #        db_table = 'custom_table_name'#Параметр для создания таблицы для нашей модели
+class MyModel(models.Model):
+    name = models.CharField(max_length=300)
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.name} {self.descriptions} {self.updated_at} {self.created_at}'
 
 
 class Student(models.Model):
