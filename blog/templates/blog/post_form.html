@@ -1,0 +1,15 @@
+{% extends 'blog/base.html' %}
+{% block title %} {post.title}Форма для поста {% endblock %}
+{% block content %}
+{% include 'blog/header.html' %}
+    <div class="container mt-5">
+        <h3 class="mb-3">Форма для поста</h3>
+        <form method="post" enctype="multipart/form-data" action="{% if post %}{% url 'blog:post_edit' post.pk %}{% else %}{% url 'blog:post_create' %}{% endif %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <a href="{% url 'blog:post_list' %}" class="btn btn-primary">Отменить</a>
+        </form>
+    </div>
+{% endblock %}
+

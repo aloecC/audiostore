@@ -1,0 +1,27 @@
+{% extends 'blog/base.html' %}
+
+{% block title%}Информация о продукте{% endblock %}
+
+{% block content %}
+<div class="row rounded mt-3">
+    <h4>{{ post.title }}</h4>
+    <div class="col-12 text-center">
+        {% if post.image %}
+            <img src="{{ post.image.url }}"  class="img-fluid img-thumbnail">
+        {% else %}
+            {{ post.tresh|truncatechars:100 }}
+        {% endif %}
+    </div>
+    <div class="col-12 text-center">
+        <p>{{ post.tresh }}</p>
+    </div>
+</div>
+<div class="text-end">
+    <a href="{% url 'blog:post_edit' post.pk %}" class="btn btn-secondary">Редактировать</a>
+        <a href="{% url 'blog:post_delete' post.pk %}" class="btn btn-danger">Удалить</a>
+        <a href="{% url 'blog:post_list' %}" class="btn btn-primary">Вернуться к списку</a>
+</div>
+<div class=" mt-5">
+        <span class="border border-white"></span>
+</div>
+{% endblock %}

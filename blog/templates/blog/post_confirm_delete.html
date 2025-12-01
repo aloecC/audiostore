@@ -1,0 +1,14 @@
+{% extends 'blog/base.html' %}
+{% block title %} {post.title} Удаление книги {% endblock %}
+{% block content %}
+{% include 'blog/header.html' %}
+   <div class="container mt-5">
+        <h3 class="mb-3">Удаление поста</h3>
+        <p>Вы действительно хотите удалить {{ post.title }}?</p>
+       <form method="post" action="{% url 'blog:post_delete' post.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger"> Подтвердить </button>
+            <a href="{% url 'blog:post_list' %}" class="btn btn-primary"> Отменить </a>
+        </form>
+    </div>
+{% endblock %}

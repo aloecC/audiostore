@@ -1,0 +1,31 @@
+{% extends 'catalog/base.html' %}
+
+{% block title%}Главная{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4 text-center">Список Статей</h1>
+        <a href="{% url 'blog:post_create' %}" class="rounded text-center w-100 btn btn-outline-success border border-secondary-subtle">Создать новую статью</a>
+        </div>
+    </div>
+    {% if posts %}
+        <div class="row mt-5">
+            {% for post in posts %}
+                <div class="col-2 mt-3">
+                    <h4 class="mt-4">{{ post.title }}</h4>
+                    {% if post.image %}
+                        <img src="{{ post.image.url }}" class="img-fluid img-thumbnail w-100">
+                        <p>{{ post.tresh|truncatechars:100 }}</p>
+                    {% else %}
+                        <p>{{ post.tresh|truncatechars:100 }}</p>
+                    {% endif %}
+                    <button class="rounded text-center w-100 btn btn-outline-light border border-secondary-subtle"><a  class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" href="{% url 'blog:post_detail' post.pk %}">Перейти</a></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Нет доступных постов.</p>
+    {% endif %}
+
+{% endblock %}
