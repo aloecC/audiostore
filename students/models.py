@@ -7,13 +7,13 @@ from django.db import models
 
 #    age = models.IntegerField(help_text='Введите возраст студента')  #Для отображения чисел
 #    is_active = models.BooleanField(default=True)  #Для хранения булевых типов
-#    description = models.TextField(mull=True, blank=True)  #Для хранения текстовых типов,
-    # mull-параметр означающий может ли поле принимать пустое значение,
+#    description = models.TextField(null=True, blank=True)  #Для хранения текстовых типов,
+    # null-параметр означающий может ли поле принимать пустое значение,
     # blank-параметр означающий может ли поле быть пустым в формах
 #    created_at = models.DateTimeField(auto_now_add=True)  #Для хранения дат
     # auto_now_add - усатанавливает дату и время создание обьекта
     # auto_now - усатанавливает дату и время создание обьекта но изменяется при каждом обновление записи
-#    image = models.ImageField(upload_to='photos/', verbase_name='Фотография')  #Для хранения изображений
+#    image = models.ImageField(c verbase_name='Фотография')  #Для хранения изображений
     # upload_to - путь до папки куда будут сохраняться изображения для конкретной модели
 #    group = models.ForeignKey(Group, on_delete=models.DO_NOTHING, related_name='students')  #Для хранения внешнего ключа
     # PROTECT - запрещает удаление связанных записей,
