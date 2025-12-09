@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 
+from catalog.forms import ProductForm, CategoryForm
 from catalog.models import Product, Category
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
@@ -18,14 +19,6 @@ def show_data(request):
         return render(request, 'app/show_data.html')
 
 
-#def contacts(request):
-#    """Обработка POST-запрса"""
-#    if request.method == 'POST':
-#        name = request.POST.get('name')
-#        message = request.POST.get('message')
-#
-#        return HttpResponse(f'Спасибо, {name}, Сообщение отправлено')
-#    return render(request, 'catalog/contacts.html')
 class ContactsTemplateView(TemplateView):
     template_name = 'catalog/contacts.html'
 
@@ -40,27 +33,10 @@ class ContactsTemplateView(TemplateView):
         return context
 
 
-
-#def product_detail(request, product_id):
-#    product = get_object_or_404(Product, id=product_id)
-#   context = {
-#        "product": product,
-#    }
-#    return render(request, 'catalog/product_detail.html', context=context)
-
-
 class ProductDetailView(DetailView):
     model = Product
     template_name = 'catalog/product_detail.html'
     context_object_name = 'product'
-
-
-#def product_list(request):
-#    products = Product.objects.all()
-#    context = {
-#        "products": products,
-#    }
-#    return render(request, 'catalog/home.html', context=context)
 
 
 class ProductListView(ListView):
@@ -68,27 +44,31 @@ class ProductListView(ListView):
     template_name = 'catalog/home.html'
     context_object_name = 'products'
 
-#def category_list(request):
-#    categories = Category.objects.all()
-#    context = {
-#        "categories": categories,
-#    }
-#    return render(request, 'catalog/catalogs.html', context=context)
+
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'catalog/product_form.html'
+    success_url = reverse_lazy('catalog:product_list')
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'catalog/product_form.html'
+    success_url = reverse_lazy('catalog:product_list')
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    template_name = 'catalog/product_confirm_delete.html'
+    success_url = reverse_lazy('catalog:product_list')
 
 
 class CategoryListView(ListView):
     model = Category
     template_name = 'catalog/catalogs.html'
     context_object_name = 'categories'
-
-#def category_detail(request, category_id):
-#    category = get_object_or_404(Category, id=category_id)
-#    products = Product.objects.filter(category=category)
-#    context = {
-#        'category': category,
-#        'products': products,
-#    }
-#    return render(request, 'catalog/category_detail.html', context=context)
 
 
 class CategoryDetailView(DetailView):
@@ -104,3 +84,23 @@ class CategoryDetailView(DetailView):
         context['products'] = Product.objects.filter(category=self.object)  # Дополнительный объект
 
         return context
+
+
+class CategoryCreateView(CreateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'catalog/category_form.html'
+    success_url = reverse_lazy('catalog:category_list')
+
+
+class CategoryUpdateView(UpdateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'catalog/category_form.html'
+    success_url = reverse_lazy('catalog:category_list')
+
+
+class CategoryDeleteView(DeleteView):
+    model = Category
+    template_name = 'catalog/category_confirm_delete.html'
+    success_url = reverse_lazy('catalog:category_list')

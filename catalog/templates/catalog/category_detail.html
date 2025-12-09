@@ -9,6 +9,11 @@
                         <h4 class="mt-2">{{ category.name }}</h4>
                 <p class="lead">{{ category.description }}</p>
             </div>
+            <div class="container btn-group w-100" role="group" aria-label="Basic example">
+                <button class="btn btn-outline-primary btn-lg  mt-2 "><a href="{% url 'catalog:category_list'%}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0 mt-4 mx-1 ">Вернуться к списку</a></button>
+                <button class=" btn btn-outline-primary btn-lg mt-2 "><a href="{% url 'catalog:category_update' category.pk %}" class="link-dark link-offset-2 link-underline link-underline-opacity-0 mt-4 mx-1 ">Редактировать</a></button>
+                <button class=" btn btn-outline-danger btn-lg mt-2 "><a href="{% url 'catalog:category_delete' category.pk %}" class="link-dark link-offset-2 link-underline link-underline-opacity-0 mt-4 mx-1 ">Удалить</a></button>
+            </div>
             {% for product in products %}
                 <div class="col-3 mt-3">
                     <h4 class="mt-4">{{ product.name }}</h4>

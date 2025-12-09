@@ -55,6 +55,9 @@
             </div>
         </div>
     </div>
+    <div class="col-12 rounded text-center text-center mt-5  btn btn-outline-info">
+        <a href="{% url 'catalog:product_create' %}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0"><h3>Добавить продукт</h3></a>
+    </div>
     {% if products %}
         <div class="row mt-5">
             {% for product in products %}

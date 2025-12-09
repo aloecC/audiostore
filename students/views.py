@@ -4,6 +4,7 @@ from students.models import Student, MyModel
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic import ListView, DetailView
 from django.urls import reverse_lazy
+from students.forms import StudentForm
 
 
 def example(request):
@@ -12,7 +13,21 @@ def example(request):
 #контроллеры обязательно принимаюе параметры request
 
 
-class MyModelCreteView(CreateView):
+class StudentCreateView(CreateView):
+    model = Student
+    form_class = StudentForm
+    template_name = 'students/student_form.html'
+    success_url = reverse_lazy('students:student_list')
+
+
+class StudentUpdateView(UpdateView):
+    model = Student
+    form_class = StudentForm
+    template_name = 'students/student_form.html'
+    success_url = reverse_lazy('students:student_list')
+
+
+class MyModelCreateView(CreateView):
     model = MyModel
     fields = ['name', 'description']
     template_name = 'students/mymodel_form.html'

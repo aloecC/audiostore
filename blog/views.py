@@ -31,7 +31,7 @@ class PostDetailView(DetailView):
         post = super().get_object(queryset)
 
         post.views_count += 1  # Увеличиваем счетчик просмотров
-        post.save()  # Сохраняем изменения в базе данных
+        post.save(update_fields=['views_count'])  # Сохраняем изменения в базе данных
         return post
 
 

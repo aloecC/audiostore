@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Сайт студентов{% endblock %}</title>
+    <!-- Подключение Bootstrap CSS -->
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container" >
+        <h1 class="mb-4">Список MyModel</h1>
+        <a href="{% url 'students:mymodel_create' %}" class="btn btn-primary">Создать новый MyModel</a>
+        <ul class="list-group">
+            {% if mymodels %}
+            {% for mymodel in mymodels %}
+            <li class="list-group-item">
+                <a href="{% url 'students:mymodel_detail' mymodel.pk %}">{{ mymodel.name }}</a>
+                <a href="{% url 'students:mymodel_update' mymodel.pk %}" class="btn btn-secondary">Редактировать</a>
+                <a href="{% url 'students:mymodel_delete' mymodel.pk %}" class="btn btn-danger">Удалить</a>
+            </li>
+            {% endfor %}
+            {% else %}
+            <h3>я хз</h3>
+            <p>Проверяем: {{ mymodels }}</p>
+            {% endif %}
+
+        </ul>
+    </div>
+
+<script src="/static/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{% extends 'book/base.html' %}
+{% block title %}Форма для автора {% endblock %}
+{% block content %}
+{% include 'author/header.html' %}
+    <div class="container mt-5">
+        <h3 class="mb-3">Форма для автора</h3>
+        <form method="post" action="{% url 'library:author_create' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <a href="{% url 'library:books_list' %}" class="btn btn-primary">Отменить</a>
+        </form>
+    </div>
+{% endblock %}

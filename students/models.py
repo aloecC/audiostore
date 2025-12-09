@@ -75,6 +75,8 @@ class Student(models.Model):
         default=FIRST_YEAR,
         verbose_name='Курс'
     )
+    email = models.EmailField(max_length=250, verbose_name='Почта')
+    enrollment_date = models.DateField()
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'

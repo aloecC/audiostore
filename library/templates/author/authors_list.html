@@ -1,0 +1,17 @@
+{% extends 'book/base.html' %}
+
+{% block title %}Список книг{% endblock %}
+
+{% block content %}
+{% include 'author/header.html'%}
+<div class="container mt-5">
+        <h3 class="mb-3">Список авторов</h3>
+        <ul class="list-group">
+                {% for author in authors %}
+                    <li class="list-group-item">
+                        <h6>{{ author.first_name }} {{author.last_name }}</h6>
+                    </li>
+                {% endfor %}
+        </ul>
+</div>
+{% endblock %}
