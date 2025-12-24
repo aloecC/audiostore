@@ -54,7 +54,6 @@
                                 <div class="col-12 bg-body">
                                     <div class="row">
                                         <div class="col-2"></div>
-                                        <div class="col-2"></div>
                                         <div class="col-2">
                                             <h6 class="text-center mt-3">
                                                 <a href="#" class="link-offset-2 link-underline link-underline-opacity-0 link-dark">О нас</a>
@@ -70,18 +69,26 @@
                                                 <a href="{% url 'blog:post_list' %}" class="link-offset-2 link-underline link-underline-opacity-0 link-dark">Блог</a>
                                             </h6>
                                         </div>
-                                        <div class="col-2 mt-1">
-                                            {% if user.is_authenticated %}
-                                            <h6 class="text-center mt-2 dropdown-item text-white">
+                                        {% if user.is_authenticated %}
+                                            <div class="col-2 mt-2">
+                                                <h6 class="text-center mt-2 dropdown-item text-white">
+                                                    <h6><a class="link-offset-2 link-underline link-underline-opacity-0 link-dark" href="{% url 'users:user_detail' user.username %}">Профиль</a></h6>
+                                                </h6>
+                                            </div>
+                                            <div class="col-2 mt-2">
                                                 <form method="post" action="{% url 'users:logout' %}">
                                                     {% csrf_token %}
-                                                    <button class=" btn btn-light btn-sm"><h6>Выйти</h6></button>
+                                                    <button class=" btn btn-light "><h6>Выйти</h6></button>
                                                 </form>
-                                            </h6>
-                                            {% else %}
+                                        {% else %}
+                                            <div class="col-2 mt-3">
                                                 <h6><a class="link-offset-2 link-underline link-underline-opacity-0 link-dark" href="{% url 'users:login' %}">Вход</a></h6>
+                                            </div>
+                                            <div class="col-2 mt-3">
                                                 <h6><a class="link-offset-2 link-underline link-underline-opacity-0 link-dark" href="{% url 'users:register' %}">Регистрация</a></h6>
-                                            {% endif %}
+                                            </div>
+
+                                        {% endif %}
 
 
                                         </div>

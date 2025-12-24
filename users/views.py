@@ -1,11 +1,14 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView
 from django.core.mail import send_mail
-from .forms import CustomUserCreationForm, CustomAuthenticationForm
+from .forms import CustomUserCreationForm, CustomAuthenticationForm, UserProfileForm
+from .models import CustomUser
 
 
 class RegisterView(CreateView):
@@ -24,3 +27,25 @@ class RegisterView(CreateView):
         from_email = 'daryaaloets@yandex.ru'
         recipient_list = [user_email,]
         send_mail(subject, message, from_email, recipient_list)
+
+
+class UserDetailView(View):
+    def get(self, request, username):
+        user = get_object_or_404(CustomUser, username=username)
+        return render(request, 'users/user_detail.html', {'user': user})
+
+
+class UserProfileEditView(LoginRequiredMixin, View):
+    def get(self, request, username):
+        user = get_object_or_404(CustomUser, username=username)
+        form = UserProfileForm(instance=request.user)
+        return render(request, 'users/edit_profile.html', {'form': form})
+
+    def post(self, request, username):
+        user = get_object_or_404(CustomUser, username=username)
+        form = UserProfileForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('catalog:product_list')  # Укажите свой URL для перенаправления после редактирования профиля
+        return render(request, 'users/edit_profile.html', {'form': form})
+
