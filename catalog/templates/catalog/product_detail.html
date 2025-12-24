@@ -15,9 +15,11 @@
             <button type="button" class=" text-start btn btn-info btn-lg">Оформить заказ</button>
             <button type="button" class=" text-start btn btn-outline-info btn-lg">Добавить в корзину</button>
         <button class="btn btn-primary btn-lg "><a href="{% url 'catalog:product_list'%}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0 mt-4 mx-1 ">Вернуться к списку</a></button>
-            <button class=" btn btn-secondary btn-lg mt-4 mx-1"><a href="{% url 'catalog:product_update' product.pk %}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0 mt-4 mx-1 ">Редактировать</a></button>
-            <button class="btn btn-outline-danger btn-lg mt-4 mx-1"><a href="{% url 'catalog:product_delete' product.pk %}" class="link-danger link-offset-2 link-underline link-underline-opacity-0 mt-4 mx-1 ">Удалить</a></button>
-
+            {% if user.is_staff %}
+                <button class=" btn btn-secondary btn-lg mt-4 mx-1"><a href="{% url 'catalog:product_update' product.pk %}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0 mt-4 mx-1 ">Редактировать</a></button>
+                <button class="btn btn-outline-danger btn-lg mt-4 mx-1"><a href="{% url 'catalog:product_delete' product.pk %}" class="link-danger link-offset-2 link-underline link-underline-opacity-0 mt-4 mx-1 ">Удалить</a></button>
+            {% else %}
+            {% endif %}
     </div>
 </div>
 {% endblock %}

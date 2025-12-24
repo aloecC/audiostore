@@ -14,7 +14,6 @@ urlpatterns = [
     path('authors/new/', AuthorCreateView.as_view(), name='author_create'),
     path('authors/update/<int:pk>', AuthorUpdateView.as_view(), name='author_update'),
     path('authors/delete/<int:pk>', AuthorDeleteView.as_view(), name='author_delete'),
-    #path('book_detail/<int:book_id>', views.book_detail, name='book_detail'),
     path('books/', BooksListView.as_view(), name='books_list'),
     path('books/<int:pk>', BookDetailView.as_view(), name='book_detail'),
     path('books/new/', BookCreateView.as_view(), name='books_create'),
