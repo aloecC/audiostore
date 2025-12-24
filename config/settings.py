@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     "students",
     "catalog",
     "library",
-    "blog"
+    "blog",
+    'users'
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -131,3 +132,29 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Кастомная настройка пользователя
+AUTH_USER_MODEL = 'users.CustomUser'
+
+# Настройки для яндекс почты
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'your_email@yandex.ru'
+EMAIL_HOST_PASSWORD = 'your-app-password'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465 # Исходящая почта, 992- Входящая почта
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'daryaaloets@yandex.ru'
+EMAIL_HOST_PASSWORD = 'hntaogjpldkgqvac'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+LOGIN_REDIRECT_URL = 'catalog:product_list'
+LOGIN_URL = 'users:login'

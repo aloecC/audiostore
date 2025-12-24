@@ -4,9 +4,12 @@
 
 {% block content %}
 {% include 'catalog/header.html' %}
-   <div class="col-12 rounded text-center text-center mt-3 btn btn-outline-success border border-secondary-subtle btn-sm">
+    {% if user.is_staff %}
+    <div class="col-12 rounded text-center text-center mt-3 btn btn-outline-success border border-secondary-subtle btn-sm">
         <a href="{% url 'catalog:category_create' %}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0"><h3>Добавить категорию</h3></a>
     </div>
+    {% else %}
+    {% endif %}
    {% if categories %}
         <div class="row text-center mt-3">
             {% for category in categories %}

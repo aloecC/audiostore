@@ -7,7 +7,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic import ListView, DetailView, TemplateView
 from django.urls import reverse_lazy
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 #render это специальная функция которая обрабатывает генерацию html шаблонов с переданными данными
 #контроллеры обязательно принимаюе параметры request
@@ -33,7 +33,7 @@ class ContactsTemplateView(TemplateView):
         return context
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = 'catalog/product_detail.html'
     context_object_name = 'product'
@@ -71,7 +71,7 @@ class CategoryListView(ListView):
     context_object_name = 'categories'
 
 
-class CategoryDetailView(DetailView):
+class CategoryDetailView(LoginRequiredMixin, DetailView):
     model = Category
     template_name = 'catalog/category_detail.html'
     context_object_name = 'category'

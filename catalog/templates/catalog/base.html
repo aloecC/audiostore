@@ -17,22 +17,22 @@
                                 <div class="col-12 bg-body">
                                     <div class="row">
                                         <div class="col-2">
-                                            <h6 class="text-center mt-2">
+                                            <h6 class="text-center mt-3">
                                                 <a href="{% url 'catalog:product_list' %}" class="link-offset-2 link-underline link-underline-opacity-0 link-dark">Главная</a>
                                             </h6>
                                         </div>
                                         <div class="col-2">
-                                            <h6 class="text-center mt-2">
+                                            <h6 class="text-center mt-3">
                                                 <a href="#" class="link-offset-2 link-underline link-underline-opacity-0 link-dark">Акции</a>
                                             </h6>
                                         </div>
                                         <div class="col-2">
-                                            <h6 class="text-center mt-2">
+                                            <h6 class="text-center mt-3">
                                                 <a href="#" class="link-offset-2 link-underline link-underline-opacity-0 link-dark">Корзина</a>
                                             </h6>
                                         </div>
                                         <div class="col-2">
-                                            <h6 class="text-center mt-2">
+                                            <h6 class="text-center mt-3">
                                                 <a href="{% url 'catalog:category_list' %}" class="link-offset-2 link-underline link-underline-opacity-0 link-dark">Каталог</a>
                                             </h6>
                                         </div>
@@ -42,7 +42,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-2"> <h6 class="text-center mt-1">
+                        <div class="col-2"> <h6 class="text-center mt-3">
                                                         <img src="https://img.icons8.com/?size=32&id=M7BZdWds6ih6&format=png">
                                                         <img src="https://img.icons8.com/?size=32&id=53298&format=png">
                                                         <img src="https://img.icons8.com/?size=32&id=43759&format=png">
@@ -56,24 +56,34 @@
                                         <div class="col-2"></div>
                                         <div class="col-2"></div>
                                         <div class="col-2">
-                                            <h6 class="text-center mt-2">
+                                            <h6 class="text-center mt-3">
                                                 <a href="#" class="link-offset-2 link-underline link-underline-opacity-0 link-dark">О нас</a>
                                             </h6>
                                         </div>
                                         <div class="col-2">
-                                            <h6 class="text-center mt-2">
+                                            <h6 class="text-center mt-3">
                                                 <a href="{% url 'catalog:contacts' %}" class="link-offset-2 link-underline link-underline-opacity-0 link-dark">Контакты</a>
                                             </h6>
                                         </div>
                                         <div class="col-2">
-                                            <h6 class="text-center mt-2">
+                                            <h6 class="text-center mt-3">
                                                 <a href="{% url 'blog:post_list' %}" class="link-offset-2 link-underline link-underline-opacity-0 link-dark">Блог</a>
                                             </h6>
                                         </div>
-                                        <div class="col-2">
-                                            <h6 class="text-center mt-2">
-                                                <a href="#" class="link-offset-2 link-underline link-underline-opacity-0 link-dark">Профиль</a>
+                                        <div class="col-2 mt-1">
+                                            {% if user.is_authenticated %}
+                                            <h6 class="text-center mt-2 dropdown-item text-white">
+                                                <form method="post" action="{% url 'users:logout' %}">
+                                                    {% csrf_token %}
+                                                    <button class=" btn btn-light btn-sm"><h6>Выйти</h6></button>
+                                                </form>
                                             </h6>
+                                            {% else %}
+                                                <h6><a class="link-offset-2 link-underline link-underline-opacity-0 link-dark" href="{% url 'users:login' %}">Вход</a></h6>
+                                                <h6><a class="link-offset-2 link-underline link-underline-opacity-0 link-dark" href="{% url 'users:register' %}">Регистрация</a></h6>
+                                            {% endif %}
+
+
                                         </div>
                                     </div>
                                 </div>

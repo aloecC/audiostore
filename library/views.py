@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic import ListView, DetailView
 from django.urls import reverse_lazy
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class AuthorListView(ListView):
     model = Author
@@ -67,14 +67,14 @@ class BookDetailView(DetailView):
         return context
 
 
-class BookCreateView(CreateView):
+class BookCreateView(LoginRequiredMixin, CreateView):
     model = Book
     form_class = BookForm
     template_name = 'book/book_form.html'
     success_url = reverse_lazy('library:books_list')
 
 
-class BookUpdateView(UpdateView):
+class BookUpdateView(LoginRequiredMixin, UpdateView):
     model = Book
     form_class = BookForm
     template_name = 'book/book_form.html'

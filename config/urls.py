@@ -8,7 +8,8 @@ urlpatterns = [
     path("students/", include("students.urls", namespace="students")),
     path('catalog/', include("catalog.urls", namespace="catalog")),
     path('library/', include('library.urls', namespace='library')),
-    path('blog/', include('blog.urls', namespace='blog'))
+    path('blog/', include('blog.urls', namespace='blog')),
+    path('users/', include('users.urls', namespace='users'))
 ]
 #include() - Позволяет включать URL-шаблоны из других файлов
 
