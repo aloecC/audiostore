@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse, HttpResponseForbidden
+from django.views import View
 
 from catalog.forms import ProductForm, CategoryForm
 from catalog.models import Product, Category
@@ -7,7 +8,8 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic import ListView, DetailView, TemplateView
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+
 
 #render это специальная функция которая обрабатывает генерацию html шаблонов с переданными данными
 #контроллеры обязательно принимаюе параметры request
@@ -33,7 +35,7 @@ class ContactsTemplateView(TemplateView):
         return context
 
 
-class ProductDetailView(LoginRequiredMixin, DetailView):
+class ProductDetailView(DetailView):
     model = Product
     template_name = 'catalog/product_detail.html'
     context_object_name = 'product'
@@ -45,24 +47,36 @@ class ProductListView(ListView):
     context_object_name = 'products'
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin,CreateView):
     model = Product
     form_class = ProductForm
     template_name = 'catalog/product_form.html'
     success_url = reverse_lazy('catalog:product_list')
 
+    def form_valid(self, form):
+        form.instance.owner = self.request.user  # Устанавливаем владельца на текущего пользователя
+        return super().form_valid(form)
 
-class ProductUpdateView(UpdateView):
+
+class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'catalog/product_form.html'
     success_url = reverse_lazy('catalog:product_list')
 
+    def test_func(self):
+        product = self.get_object()
+        return self.request.user == product.owner or self.request.user.groups.filter(name='Модераторы продуктов').exists()
 
-class ProductDeleteView(DeleteView):
+
+class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Product
     template_name = 'catalog/product_confirm_delete.html'
     success_url = reverse_lazy('catalog:product_list')
+
+    def test_func(self):
+        product = self.get_object()
+        return self.request.user == product.owner or self.request.user.groups.filter(name='Модераторы продуктов').exists()
 
 
 class CategoryListView(ListView):
@@ -104,3 +118,29 @@ class CategoryDeleteView(DeleteView):
     model = Category
     template_name = 'catalog/category_confirm_delete.html'
     success_url = reverse_lazy('catalog:category_list')
+
+
+class UnpublishProductView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        product = get_object_or_404(Product, pk=pk)
+
+        if not request.user.has_perm('library.can_unpublish_product'):
+            return HttpResponseForbidden('У вас нет права на отмену публикации')
+
+        product.publication_status = False
+        product.save()
+
+        return redirect('catalog:product_detail', pk=pk)
+
+
+class PublishProductView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        product = get_object_or_404(Product, pk=pk)
+
+        if not request.user.has_perm('library.can_publish_product'):
+            return HttpResponseForbidden('У вас нет права на публикацию')
+
+        product.publication_status = True
+        product.save()
+
+        return redirect('catalog:product_detail', pk=pk)

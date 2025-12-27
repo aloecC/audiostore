@@ -53,7 +53,7 @@ class CategoryForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'description', 'image', 'category', 'purchase_price']
+        fields = ['name', 'description', 'image', 'category', 'purchase_price', 'publication_status']
 
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
@@ -90,6 +90,13 @@ class ProductForm(forms.ModelForm):
             {
                 'class': 'form-control',
                 'placeholder': 'Введите цену'
+            }
+        )
+
+        self.fields['publication_status'].widget.attrs.update(
+            {
+                'class': 'form-control',
+                'placeholder': 'Статус публикации'
             }
         )
 
