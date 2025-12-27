@@ -1,4 +1,7 @@
+from django.contrib.auth.models import User
 from django.db import models
+
+from users.models import CustomUser
 
 
 class Category(models.Model):
@@ -23,6 +26,9 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата последнего изменения')
 
+    publication_status = models.BooleanField(verbose_name='Статус публикации', default=True)
+    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='владельцы', default=2)
+
     def __str__(self):
         return f'{self.name} {self.purchase_price} {self.updated_at}'
 
@@ -30,6 +36,12 @@ class Product(models.Model):
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
         ordering = ['purchase_price']  #Порядок сортировки
+
+        permissions = [
+            ("can_unpublish_product", "Can unpublish product"),
+            ("can_publish_product", "Can publish product"),
+        ]
+
 
 
 

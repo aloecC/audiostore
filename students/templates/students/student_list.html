@@ -10,6 +10,12 @@
     {% for student in students %}
         <li class="list-group-item">
             {{ student.first_name }} {{ student.last_name }} - {{ student.year }}
+            {% if perms.students.can_promote_stedent %|
+                <a href = '#'>Перевести студента</a>
+            {% endif %}
+            {% if perms.students.can_expel_student %|
+                <button>Исключить студента</button>
+            {% endif %}
         </li>
     {% endfor %}
 </ul>

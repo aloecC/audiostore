@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from .views import BooksListView, BookDetailView, BookCreateView, BookUpdateView, BookDeleteView, AuthorListView, \
-    AuthorDetailView, AuthorCreateView, AuthorUpdateView, AuthorDeleteView
+    AuthorDetailView, AuthorCreateView, AuthorUpdateView, AuthorDeleteView, RecommendBookView, ReviewBookView
 
 #Пространство имен(помогает избежать ошибки при одинаковых именах маршрута)
 app_name = 'library'
@@ -19,4 +19,6 @@ urlpatterns = [
     path('books/new/', BookCreateView.as_view(), name='books_create'),
     path('books/update/<int:pk>', BookUpdateView.as_view(), name='book_update'),
     path('books/delete/<int:pk>', BookDeleteView.as_view(), name='book_delete'),
+    path('books/recommend/<int:pk>', RecommendBookView.as_view(), name='book_recommend'),
+    path('books/review/<int:pk>', ReviewBookView.as_view(), name='book_review'),
     ]

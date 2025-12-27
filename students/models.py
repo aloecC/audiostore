@@ -85,6 +85,10 @@ class Student(models.Model):
         verbose_name = 'студент'
         verbose_name_plural = 'студенты'
         ordering = ['last_name']
+        permissions = [
+            ('can_promote_stedent', 'Can promote student'),
+            ('can_expel_student', 'Can expel student'),
+        ]
 
 
 
