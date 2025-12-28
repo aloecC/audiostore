@@ -35,10 +35,16 @@ class ContactsTemplateView(TemplateView):
         return context
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = 'catalog/product_detail.html'
     context_object_name = 'product'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['is_moderator'] = user.is_staff and user.groups.filter(name='Модератор продуктов').exists()
+        return context
 
 
 class ProductListView(ListView):
@@ -47,7 +53,7 @@ class ProductListView(ListView):
     context_object_name = 'products'
 
 
-class ProductCreateView(LoginRequiredMixin,CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = 'catalog/product_form.html'
@@ -66,7 +72,7 @@ class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         product = self.get_object()
-        return self.request.user == product.owner or self.request.user.groups.filter(name='Модераторы продуктов').exists()
+        return self.request.user == product.owner or self.request.user.groups.filter(name='Модератор продуктов').exists()
 
 
 class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -76,7 +82,7 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         product = self.get_object()
-        return self.request.user == product.owner or self.request.user.groups.filter(name='Модераторы продуктов').exists()
+        return self.request.user == product.owner or self.request.user.groups.filter(name='Модератор продуктов').exists()
 
 
 class CategoryListView(ListView):
