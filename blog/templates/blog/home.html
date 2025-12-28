@@ -6,7 +6,9 @@
     <div class="row">
         <div class="col-12">
             <h1 class="mb-4 text-center">Список Статей</h1>
-        <a href="{% url 'blog:post_create' %}" class="rounded text-center w-100 btn btn-outline-success border border-secondary-subtle">Создать новую статью</a>
+        {% if user.is_staff %}
+            <a href="{% url 'blog:post_create' %}" class="rounded text-center w-100 btn btn-outline-success border border-secondary-subtle">Создать новую статью</a>
+        {% endif %}
         </div>
     </div>
     {% if posts %}

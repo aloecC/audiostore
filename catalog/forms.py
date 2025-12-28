@@ -53,7 +53,7 @@ class CategoryForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'description', 'image', 'category', 'purchase_price', 'publication_status']
+        fields = ['name', 'description', 'image', 'category', 'purchase_price',]
 
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
@@ -93,12 +93,6 @@ class ProductForm(forms.ModelForm):
             }
         )
 
-        self.fields['publication_status'].widget.attrs.update(
-            {
-                'class': 'form-control',
-                'placeholder': 'Статус публикации'
-            }
-        )
 
     def clean(self):
         cleaned_data = super().clean()

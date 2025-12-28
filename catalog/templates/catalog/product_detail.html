@@ -15,27 +15,26 @@
             <button type="button" class=" text-start btn btn-info btn-lg">Оформить заказ</button>
             <button type="button" class=" text-start btn btn-outline-info btn-lg">Добавить в корзину</button>
         <button class="btn btn-primary btn-lg "><a href="{% url 'catalog:product_list'%}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0 mt-4 mx-1 ">Вернуться к списку</a></button>
-            {% if user == product.owner or user.is_staff %}
-                <button class=" btn btn-secondary btn-lg mt-4 mx-1"><a href="{% url 'catalog:product_update' product.pk %}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0 mt-4 mx-1 ">Редактировать</a></button>
-
-                {% if 'catalog.can_unpublish_product' in perms %}
+            {% if user == product.owner %}
+                <button class=" btn btn-secondary btn-sm mt-4 mx-1"><a href="{% url 'catalog:product_update' product.pk %}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0 mt-4 mx-1 ">Редактировать</a></button>
+            {% endif %}
+            {% if is_moderator %}
+                {% if product.publication_status %}
                     <form action="{% url 'catalog:product_unpublish' product.pk %}" method="post">
                         {% csrf_token %}
                     <button type="submit" class="btn btn-warning btn-sm mt-2 mx-1">Отменить публикацию</button>
                     </form>
-                {% endif %}
-                {% if not catalog.publication_status %}
-                    {% if 'catalog.can_publish_product' in perms %}
+                {% else %}
                         <form action="{% url 'catalog:product_publish' product.pk %}" method="post">
                             {% csrf_token %}
                         <button type="submit" class="btn btn-success  btn-sm mt-2 mx-1">Опубликовать</button>
                         </form>
-                    {% endif %}
                 {% endif %}
-                {% if 'catalog.delete_product' in perms %}
-                    <button class="btn btn-outline-danger btn-sm mt-2 mx-1"><a href="{% url 'catalog:product_delete' product.pk %}" class="link-danger link-offset-2 link-underline link-underline-opacity-0 mt-4 mx-1 ">Удалить</a></button>
+            {% endif %}
+            {% if user == product.owner or is_moderator %}
+                    <button class="btn btn-outline-danger btn-sm mt-4 mx-1"><a href="{% url 'catalog:product_delete' product.pk %}" class="link-danger link-offset-2 link-underline link-underline-opacity-0 mt-4 mx-1 ">Удалить</a></button>
                 {% endif %}
-        {% endif %}
+
     </div>
 </div>
 {% endblock %}

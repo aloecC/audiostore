@@ -5,7 +5,7 @@
 {% block content %}
     <div class="card text-center mt-4" style="width: 80rem;">
         {% if user.avatar %}
-            <img src="#" class="card-img-top">
+            <img src="{{ user.avatar.url }}" class="card-img-top">
         {% else %}
             <li class="list-group-item">Добавьте фото пользователя</li>
         {% endif %}
