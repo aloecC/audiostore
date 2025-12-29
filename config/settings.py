@@ -158,3 +158,14 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 LOGIN_REDIRECT_URL = 'catalog:product_list'
 LOGIN_URL = 'users:login'
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
+    }
+}
+# CASHES - словарь, в котором мы определяем различные конфигурации кеша
+# default - указывает на основную конфигурацию кеша
+# BACKEND - испоьзование бекенда который предоставляет django для подключения к redis
+# LOCATIONS - указывает на расположение redis сервера '/1'- использование первой БД redis(доступно от 0 до 15 БД)

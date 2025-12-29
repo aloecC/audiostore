@@ -22,6 +22,7 @@
                     {% else %}
                         <p>{{ post.tresh|truncatechars:100 }}</p>
                     {% endif %}
+                    <h6 class="text-end container">{{ post.views_count }} <img src="https://img.icons8.com/?size=100&id=43798&format=png&color=000000" style="width: 10%; height: auto;"></h6>
                     <button class="rounded text-center w-100 btn btn-outline-light border border-secondary-subtle"><a  class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" href="{% url 'blog:post_detail' post.pk %}">Перейти</a></button>
                 </div>
             {% endfor %}

@@ -10,6 +10,13 @@ from django.views.generic import ListView, DetailView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+
+from django.core.cache import cache
+
+from library.services import BookService
+
 
 class AuthorListView(ListView):
     model = Author
@@ -17,7 +24,12 @@ class AuthorListView(ListView):
     context_object_name = 'authors'
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        """низкоуровневое кеширование"""
+        queryset = cache.get('authors_queryset')
+
+        if not queryset: # если в кеше нет значения то мы ищем его в БД
+            queryset = super().get_queryset()
+            cache.set('authors_queryset', queryset, 60*15)
         return queryset
 
 
@@ -47,7 +59,8 @@ class AuthorDeleteView(DeleteView):
     success_url = reverse_lazy('library:authors_list')
 
 
-class BooksListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+@method_decorator(cache_page(60*15), name='dispatch')
+class BooksListView(ListView):
     model = Book
     template_name = 'book/books_list.html'
     context_object_name = 'books'
@@ -58,16 +71,25 @@ class BooksListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         return queryset
 
 
+@method_decorator(cache_page(60*15), name='dispatch')
 class BookDetailView(LoginRequiredMixin, DetailView):
     model = Book
     template_name = 'book/book_detail.html'
     context_object_name = 'book'
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        book_id = self.object.id
+
+        context['full_info'] = BookService.get_full_info(book_id)
+
+        context['average_grade'] = BookService.calculate_average_grade(book_id)
+
+
         context['author_books_count'] = Book.objects.filter(author=self.object.author).count()
+
         return context
+
 
 
 class BookCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):

@@ -3,17 +3,32 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, Http404, HttpResponseForbidden
 from django.views import View
 
+from library.services import BookService
 from students.models import Student, MyModel
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic import ListView, DetailView
 from django.urls import reverse_lazy
 from students.forms import StudentForm
 
+from django.core.cache import cache
+
+from students.services import StudentService
+
 
 def example(request):
     return render(request, 'app/example_view.html')
 #render это специальная функция которая обрабатывает генерацию html шаблонов с переданными данными
 #контроллеры обязательно принимаюе параметры request
+
+
+def my_view(request):
+    data = cache.get('my_key')
+
+    if not data:
+        data = 'some espensive computations'
+        cache.set('my_key', data, 60 * 15) # 60*15 - время хранения
+
+    return HttpResponse(data)
 
 
 class StudentCreateView(CreateView):
@@ -141,12 +156,23 @@ def index(request):
     return render(request, 'students/index.html', context=context)
 
 
-def student_detail(request, student_id):
-    student = get_object_or_404(Student, id=student_id)
-    context = {
-        'student': student,
-    }
-    return render(request, 'students/student_detail.html', context=context)
+class StudentDetailView(DetailView):
+    model = Student
+    template_name = 'students/student_detail.html'
+    context_object_name = 'student'
+
+    pk_url_kwarg = 'student_id'
+
+    def get_context_data(self, **kwargs):
+        # Получаем стандартный контекст данных из родительского класса
+        context = super().get_context_data(**kwargs)
+        # Получаем ID студента из объекта
+        student_id = self.object.id
+        # Добавляем в контекст полное имя, средний балл и статус сдачи предмета
+        context['full_name'] = StudentService.get_full_name(student_id)
+        context['average_grade'] = StudentService.calculate_average_grade(student_id)
+        context['has_passed'] = StudentService.has_passed(student_id)
+        return context
 
 
 def student_list(request):

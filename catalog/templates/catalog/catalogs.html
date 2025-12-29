@@ -14,8 +14,11 @@
         <div class="row text-center mt-3">
             {% for category in categories %}
                 <div class="col-6 mt-3 text-center">
-                    <button class="rounded text-center w-100 btn btn-outline-success border border-secondary-subtle btn-lg"><a  class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" href="{% url 'catalog:category_detail' category.pk %}"><h4 class="mt-2">{{ category.name }}</h4></a></button>
+                    <button class="rounded text-center w-100 btn btn-outline-success border border-secondary-subtle btn-lg"><a  class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" href="{% url 'catalog:category_detail' category.id %}"><h4 class="mt-2">{{ category.name }}</h4></a></button>
                     <p class="lead">{{ category.description|truncatechars:100 }}</p>
+                    {% if user.is_staff %}
+                    <p class="lead">{{ category.products.count }} позиций </p>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>

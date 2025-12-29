@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import StudentDetailView
 
 #Пространство имен(помогает избежать ошибки при одинаковых именах маршрута)
 app_name = 'students'
@@ -13,7 +14,7 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('example/', views.example_view, name='example'),
     path('index/', views.index, name='index'),
-    path('student_detail/<int:student_id>', views.student_detail, name='student_detail'),
+    path('student_detail/<int:student_id>', StudentDetailView.as_view(), name='student_detail'),
     path('student_list/', views.student_list, name='student_list'),
     path('student/create/', views.StudentCreateView.as_view(), name='student_create'),
     path('student/update/<int:pk>/', views.StudentUpdateView.as_view(), name='student_update'),

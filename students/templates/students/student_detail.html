@@ -1,12 +1,14 @@
 <!-- student_detail.html -->
 {% extends 'students/base.html' %}
 
-{% block title %}Детали студента{% endblock %}
+{% block title %}Страница студента{% endblock %}
 
 {% block content %}
 {% include 'students/header.html' %}
 <h2>Детали студента</h2>
-<p>Имя: {{ student.first_name }}</p>
-<p>Фамилия: {{ student.last_name }}</p>
+<p>{{ full_name }}</p>
 <p>Курс: {{ student.get_year_display }}</p>
+<p>Средний балл: {{ average_grade }}</p>
+<p>{{ has_passed|'Да,Нет'}}</p>
+<a href="% url 'students:student_list' %" class="btn btn-primary">Назад к списку студентов</a>
 {% endblock %}
