@@ -11,7 +11,7 @@ app_name = 'catalog'
 #Path это специальная функция которая позволяет регестрировать наш маршрут
 urlpatterns = [
     path('contacts/', ContactsTemplateView.as_view(), name='contacts'),
-    path('product_detail/<int:pk>', ProductDetailView.as_view(), name='product_detail'),
+    path('category_detail/<int:id>', CategoryDetailView.as_view(), name='category_detail'),
     path('product_detail/<int:pk>', ProductDetailView.as_view(), name='product_detail'),
     path('product_detail/unpublish/<int:pk>', UnpublishProductView.as_view(), name='product_unpublish'),
     path('product_detail/publish/<int:pk>', PublishProductView.as_view(), name='product_publish'),
@@ -20,7 +20,6 @@ urlpatterns = [
     path('product/update/<int:pk>', ProductUpdateView.as_view(), name='product_update'),
     path('product/delete/<int:pk>', ProductDeleteView.as_view(), name='product_delete'),
     path('catalogs/', CategoryListView.as_view(), name='category_list'),
-    path('category_detail/<int:pk>', CategoryDetailView.as_view(), name='category_detail'),
     path('category/new/', CategoryCreateView.as_view(), name='category_create'),
     path('category/update/<int:pk>', CategoryUpdateView.as_view(), name='category_update'),
     path('category/delete/<int:pk>', CategoryDeleteView.as_view(), name='category_delete'),

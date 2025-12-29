@@ -34,3 +34,12 @@ class Book(models.Model):
             ("can_review_book", "Can review book"),
             ("can_recommend_book", "Can recommend book"),
         ]
+
+
+class Review(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='reviews')
+    rating = models.IntegerField(max_length=20, verbose_name='Оценка')
+    comment = models.TextField(max_length=200, verbose_name='Комментарий')
+
+    def __str__(self):
+        return f'{self.book} {self.rating}'

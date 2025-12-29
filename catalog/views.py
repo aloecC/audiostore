@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseForbidden
+from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.cache import cache_page
 
 from catalog.forms import ProductForm, CategoryForm
 from catalog.models import Product, Category
@@ -9,6 +11,11 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic import ListView, DetailView, TemplateView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+
+
+from django.core.cache import cache
+
+from catalog.services import CatalogService
 
 
 #render это специальная функция которая обрабатывает генерацию html шаблонов с переданными данными
@@ -35,6 +42,7 @@ class ContactsTemplateView(TemplateView):
         return context
 
 
+@method_decorator(cache_page(60*15), name='dispatch')
 class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = 'catalog/product_detail.html'
@@ -47,14 +55,19 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
+@method_decorator(cache_page(60*15), name='dispatch')
 class ProductListView(ListView):
     model = Product
     template_name = 'catalog/home.html'
     context_object_name = 'products'
 
     def get_queryset(self):
-        # Получаем последние 5 созданных продуктов
-        products = Product.objects.order_by('-created_at')[:5]
+        # Получаем последние 8 созданных продуктов
+        products = cache.get('products_queryset')
+        if products is None:
+            products = Product.objects.order_by('-created_at')[:8]
+            # Сохраняем данные в кеш на 15 минут (900 секунд)
+            cache.set('products_queryset', products, 60*15)
 
         for product in products:
             print(product)
@@ -99,18 +112,34 @@ class CategoryListView(ListView):
     template_name = 'catalog/catalogs.html'
     context_object_name = 'categories'
 
+    def get_queryset(self):
+        """низкоуровневое кеширование"""
+        queryset = cache.get('categories_queryset')
 
+        if not queryset:
+            queryset = super().get_queryset()
+            cache.set('categories_queryset', queryset, 60*15)
+
+        return queryset
+
+
+@method_decorator(cache_page(60*15), name='dispatch')
 class CategoryDetailView(LoginRequiredMixin, DetailView):
     model = Category
     template_name = 'catalog/category_detail.html'
     context_object_name = 'category'
 
+    slug_field = 'id'
+    slug_url_kwarg = 'id'
+
     def get_context_data(self, **kwargs):
         # Получаем контекст от родительского класса
         context = super().get_context_data(**kwargs)
+        category_id = self.object.id
 
+        context['products'] = CatalogService.get_products_by_category(category_id)
         # Добавляем дополнительные объекты в контекст
-        context['products'] = Product.objects.filter(category=self.object)  # Дополнительный объект
+        #context['products'] = Product.objects.filter(category=self.object)  # Дополнительный объект
 
         return context
 
