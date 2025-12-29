@@ -52,6 +52,15 @@ class ProductListView(ListView):
     template_name = 'catalog/home.html'
     context_object_name = 'products'
 
+    def get_queryset(self):
+        # Получаем последние 5 созданных продуктов
+        products = Product.objects.order_by('-created_at')[:5]
+
+        for product in products:
+            print(product)
+
+        return products
+
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product

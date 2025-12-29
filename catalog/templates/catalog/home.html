@@ -61,6 +61,7 @@
     </div>
     {% else %}
     {% endif %}
+    <div class="col-12 mt-5 text-center"><h1>Новинки</h1></div>
     {% if products %}
         <div class="row mt-5">
             {% for product in products %}
@@ -70,6 +71,9 @@
                     {{ product.description|truncatechars:100 }}
                     <h6>Категория: {{ product.category }}</h6>
                     <h6>Цена: {{ product.purchase_price }} рублей</h6>
+                    {% if user.is_staff %}
+                    <p>{{ product.updated_at |date:"d M Y" }}</p>
+                    {% endif %}
                     <button class="rounded text-center w-100 btn btn btn-outline-info border border-secondary-subtle"><a  class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" href="{% url 'catalog:product_detail' product.id %}">Перейти</a></button>
                 </div>
             {% endfor %}
