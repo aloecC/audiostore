@@ -1,0 +1,28 @@
+{% extends 'catalog/base.html' %}
+
+{% block title%}Каталог{% endblock %}
+
+{% block content %}
+{% include 'catalog/header.html' %}
+    {% if user.is_staff %}
+    <div class="col-12 rounded text-center text-center mt-3 btn btn-outline-success border border-secondary-subtle btn-sm">
+        <a href="{% url 'catalog:category_create' %}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0"><h3>Добавить категорию</h3></a>
+    </div>
+    {% else %}
+    {% endif %}
+   {% if categories %}
+        <div class="row text-center mt-3">
+            {% for category in categories %}
+                <div class="col-6 mt-3 text-center">
+                    <button class="rounded text-center w-100 btn btn-outline-success border border-secondary-subtle btn-lg"><a  class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" href="{% url 'catalog:category_detail' category.id %}"><h4 class="mt-2">{{ category.name }}</h4></a></button>
+                    <p class="lead">{{ category.description|truncatechars:100 }}</p>
+                    {% if user.is_staff %}
+                    <p class="lead">{{ category.products.count }} позиций </p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Нет доступных категорий.</p>
+    {% endif %}
+{% endblock %}

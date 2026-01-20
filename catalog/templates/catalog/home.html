@@ -1,93 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Главная</title>
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="bg-body">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-5 bg-body">
-                            <div class="row">
-                                <div class="col-12 bg-body">
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <h6 class="text-center mt-2">
-                                                <a href="file:///C:/Users/ЗС/PycharmProjects/project_django2/catalog/templates/catalog/home.html" class="link-offset-2 link-underline link-underline-opacity-0 link-dark">Главная</a>
-                                            </h6>
-                                        </div>
-                                        <div class="col-3">
-                                            <h6 class="text-center mt-2">
-                                                <a href="file:///C:/Users/ЗС/PycharmProjects/project_django2/catalog/templates/catalog/home.html" class="link-offset-2 link-underline link-underline-opacity-0 link-dark">Акции</a>
-                                            </h6>
-                                        </div>
-                                        <div class="col-3">
-                                            <h6 class="text-center mt-2">
-                                                <a href="file:///C:/Users/ЗС/PycharmProjects/project_django2/catalog/templates/catalog/home.html" class="link-offset-2 link-underline link-underline-opacity-0 link-dark">Корзина</a>
-                                            </h6>
-                                        </div>
-                                        <div class="col-3">
-                                            <h6 class="text-center mt-2">
-                                                <a href="file:///C:/Users/ЗС/PycharmProjects/project_django2/catalog/templates/catalog/home.html" class="link-offset-2 link-underline link-underline-opacity-0 link-dark">Каталог</a>
-                                            </h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2"> <h6 class="text-center mt-1">
-                                                        <img src="https://img.icons8.com/?size=32&id=M7BZdWds6ih6&format=png">
-                                                        <img src="https://img.icons8.com/?size=32&id=53298&format=png">
-                                                        <img src="https://img.icons8.com/?size=32&id=43759&format=png">
-                                                        <img src="https://img.icons8.com/?size=32&id=57286&format=png">
-                                            </h6>
-                        </div>
-                        <div class="col-5">
-                            <div class="row">
-                                <div class="col-12 bg-body">
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <h6 class="text-center mt-2">
-                                                <a href="file:///C:/Users/ЗС/PycharmProjects/project_django2/catalog/templates/catalog/home.html" class="link-offset-2 link-underline link-underline-opacity-0 link-dark">О нас</a>
-                                            </h6>
-                                        </div>
-                                        <div class="col-3">
-                                            <h6 class="text-center mt-2">
-                                                <a href="file:///C:/Users/ЗС/PycharmProjects/project_django2/catalog/templates/catalog/contacts.html" class="link-offset-2 link-underline link-underline-opacity-0 link-dark">Контакты</a>
-                                            </h6>
-                                        </div>
-                                        <div class="col-3">
-                                            <h6 class="text-center mt-2">
-                                                <a href="file:///C:/Users/ЗС/PycharmProjects/project_django2/catalog/templates/catalog/home.html" class="link-offset-2 link-underline link-underline-opacity-0 link-dark">Отзывы</a>
-                                            </h6>
-                                        </div>
-                                        <div class="col-3">
-                                            <h6 class="text-center mt-2">
-                                                <a href="file:///C:/Users/ЗС/PycharmProjects/project_django2/catalog/templates/catalog/home.html" class="link-offset-2 link-underline link-underline-opacity-0 link-dark">Профиль</a>
-                                            </h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="bg-dark">
-        <span class="border border-white"></span>
-    </div>
-    <div class="text-center mt-2">
-        <h1 class="text-dark">RIGHT</h1>
-    </div>
+{% extends 'catalog/base.html' %}
+
+{% block title%}Главная{% endblock %}
+
+{% block content %}
+{% include 'catalog/header.html' %}
     <div class="text-center">
-        <h4 class="text-body-secondary">Cделай правильный выбор.</h4>
+        <h4 class="text-body-secondary">Твой правильный выбор.</h4>
     </div>
     <div class="row">
         <div class="col-6 text-center">
@@ -130,13 +48,38 @@
                     <img src="https://cdn-icons-png.flaticon.com/128/865/865548.png">
                     <img src="https://cdn-icons-png.flaticon.com/128/865/865548.png">
                     <img src="https://cdn-icons-png.flaticon.com/128/9992/9992134.png">
-                    <img src="https://cdn-icons-png.flaticon.com/128/865/865548.png">
-                    <img src="https://cdn-icons-png.flaticon.com/128/865/865548.png">
+
+
 
                 </div>
             </div>
         </div>
     </div>
-    <script src="/static/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    {% if user.is_staff %}
+    <div class="col-12 rounded text-center text-center mt-5  btn btn-outline-info">
+        <a href="{% url 'catalog:product_create' %}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0"><h3>Добавить продукт</h3></a>
+    </div>
+    {% else %}
+    {% endif %}
+    <div class="col-12 mt-5 text-center"><h1>Новинки</h1></div>
+    {% if products %}
+        <div class="row mt-5">
+            {% for product in products %}
+                <div class="col-3 mt-3">
+                    <h4 class="mt-4">{{ product.name }}</h4>
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid img-thumbnail">
+                    {{ product.description|truncatechars:100 }}
+                    <h6>Категория: {{ product.category }}</h6>
+                    <h6>Цена: {{ product.purchase_price }} рублей</h6>
+                    {% if user.is_staff %}
+                    <p>{{ product.updated_at |date:"d M Y" }}</p>
+                    {% endif %}
+                    <button class="rounded text-center w-100 btn btn btn-outline-info border border-secondary-subtle"><a  class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" href="{% url 'catalog:product_detail' product.id %}">Перейти</a></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Нет доступных продуктов.</p>
+    {% endif %}
+
+{% endblock %}
