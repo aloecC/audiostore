@@ -34,8 +34,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     "catalog",
     "blog",
-    'library',
-    'students',
     'users'
 ]
 
