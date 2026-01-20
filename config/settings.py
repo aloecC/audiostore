@@ -32,10 +32,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'crispy_forms',
-    "students",
     "catalog",
-    "library",
     "blog",
+    'library',
+    'students',
     'users'
 ]
 
