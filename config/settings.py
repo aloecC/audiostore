@@ -70,8 +70,6 @@ TEMPLATES = [
 WSGI_APPLICATION = "config.wsgi.application"#Путь к WSGI приложениям,точа входа для совместимости с WSGI серверами
 
 
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 #Настройка для подключения к базе данных
 DATABASES = {
     "default": {
@@ -84,9 +82,6 @@ DATABASES = {
     }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 #Список валидаторов, который используется для проверки надежности паролей пользователей
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -116,9 +111,6 @@ USE_L18N = True #Поддержка локализации
 USE_TZ = True #Поддержка временных зон
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
 STATIC_URL = "static/" #Маршрут для доступа к статике
 STATICFILES_DIRS = [BASE_DIR / 'static'] #Список директорий на диске из которых подгружаются статические файлы
 
@@ -130,7 +122,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Кастомная настройка пользователя
+
 AUTH_USER_MODEL = 'users.CustomUser'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -151,7 +143,4 @@ CACHES = {
         'LOCATION': 'redis://127.0.0.1:6379/1',
     }
 }
-# CASHES - словарь, в котором мы определяем различные конфигурации кеша
-# default - указывает на основную конфигурацию кеша
-# BACKEND - испоьзование бекенда который предоставляет django для подключения к redis
-# LOCATIONS - указывает на расположение redis сервера '/1'- использование первой БД redis(доступно от 0 до 15 БД)
+

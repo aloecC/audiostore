@@ -35,7 +35,6 @@ class CustomUserCreationForm(UserCreationForm):
         self.fields['first_name'].widget.attrs.update(
             {
                 'class': 'form-control',
-                'type': 'date',
                 'placeholder': 'Введите ваше имя'
             }
         )
@@ -67,7 +66,6 @@ class CustomUserCreationForm(UserCreationForm):
                 'placeholder': 'Введите страну'
             }
         )
-
 
     def clean_phone_number(self):
         phone_number = self.cleaned_data.get('phone_number')

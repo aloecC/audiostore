@@ -12,11 +12,9 @@ from django.views.generic import ListView, DetailView, TemplateView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 
-
 from django.core.cache import cache
 
 from catalog.services import CatalogService
-
 
 #render это специальная функция которая обрабатывает генерацию html шаблонов с переданными данными
 #контроллеры обязательно принимаюе параметры request
@@ -57,6 +55,7 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
 
 @method_decorator(cache_page(60*15), name='dispatch')
 class ProductListView(ListView):
+    """Получает список продуктов"""
     model = Product
     template_name = 'catalog/home.html'
     context_object_name = 'products'
